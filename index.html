@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>题舟 - 智能刷题台</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand"><span>题</span><div><h1>题舟</h1><p>智能刷题台</p></div></div>
+      <nav>
+        <button class="tab active" data-view="practice">随机抽题</button>
+        <button class="tab" data-view="library">题库管理</button>
+        <button class="tab" data-view="generate">知识库生成</button>
+        <button class="tab" data-view="stats">练习统计</button>
+      </nav>
+      <section>
+        <h2>分类</h2>
+        <div id="categoryList"></div>
+      </section>
+    </aside>
+
+    <main>
+      <header>
+        <div><p>Practice Desk</p><h2 id="pageTitle">随机抽题</h2></div>
+        <div class="actions">
+          <button id="exportBtn" title="导出题库">导出</button>
+          <label class="file">导入<input id="importInput" type="file" accept=".json,.csv,.txt" /></label>
+        </div>
+      </header>
+
+      <section id="practice" class="view active">
+        <div class="toolbar">
+          <label>分类<select id="filterCategory"></select></label>
+          <label>题型<select id="filterType"><option value="all">全部</option><option value="single">单选</option><option value="judge">判断</option><option value="short">简答</option></select></label>
+          <label>优先错题<input id="preferWrong" type="checkbox" checked /></label>
+          <button id="randomBtn" class="primary">随机抽题</button>
+        </div>
+        <article class="question">
+          <div id="questionMeta" class="meta"></div>
+          <h3 id="questionText">点击随机抽题开始练习。</h3>
+          <div id="options"></div>
+          <textarea id="shortInput" class="hidden" placeholder="写下你的答案要点"></textarea>
+          <div id="feedback" class="feedback hidden"></div>
+        </article>
+        <div class="toolbar">
+          <button id="answerBtn">查看答案</button>
+          <button id="wrongBtn">标记错题</button>
+          <button id="rightBtn">答对了</button>
+        </div>
+      </section>
+
+      <section id="library" class="view">
+        <form id="questionForm" class="panel">
+          <h2>新增题目</h2>
+          <label>题干<textarea id="prompt" required></textarea></label>
+          <div class="grid">
+            <label>分类<input id="category" required placeholder="如：数据结构" /></label>
+            <label>题型<select id="type"><option value="single">单选</option><option value="judge">判断</option><option value="short">简答</option></select></label>
+            <label>难度<select id="difficulty"><option>基础</option><option>中等</option><option>进阶</option></select></label>
+          </div>
+          <label id="optionsWrap">选项，每行一个<textarea id="formOptions" placeholder="A. ...&#10;B. ..."></textarea></label>
+          <label>答案<input id="answer" required placeholder="B / 正确 / 要点" /></label>
+          <label>解析<textarea id="explanation"></textarea></label>
+          <button class="primary">保存题目</button>
+        </form>
+        <section class="panel">
+          <div class="toolbar"><h2>题目列表</h2><input id="search" type="search" placeholder="搜索题目" /></div>
+          <div id="questionList"></div>
+        </section>
+      </section>
+
+      <section id="generate" class="view">
+        <section class="panel">
+          <h2>上传知识库并生成题目</h2>
+          <label class="drop">选择知识库文件<input id="knowledgeFile" type="file" accept=".txt,.md,.csv,.json" multiple /></label>
+          <textarea id="knowledgeText" placeholder="也可以直接粘贴知识点，每段一句或一小节。"></textarea>
+          <div class="toolbar">
+            <label>生成分类<input id="genCategory" placeholder="知识库生成" /></label>
+            <label>数量<input id="genCount" type="number" min="1" max="30" value="6" /></label>
+            <button id="generateBtn" class="primary" type="button">生成题目</button>
+            <button id="saveGeneratedBtn" type="button">全部入库</button>
+          </div>
+        </section>
+        <section class="panel"><h2>待入库题目</h2><div id="generatedList" class="empty">暂无生成结果</div></section>
+      </section>
+
+      <section id="stats" class="view">
+        <div class="metrics">
+          <article><span>总题数</span><strong id="totalQuestions">0</strong></article>
+          <article><span>分类数</span><strong id="totalCategories">0</strong></article>
+          <article><span>错题数</span><strong id="wrongQuestions">0</strong></article>
+          <article><span>累计练习</span><strong id="totalAnswered">0</strong></article>
+        </div>
+        <section class="panel"><h2>分类分布</h2><div id="chart"></div></section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
